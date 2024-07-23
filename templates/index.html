@@ -64,6 +64,18 @@
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
+            cursor: pointer;
+        }
+        .flash-messages {
+            list-style-type: none;
+            padding: 0;
+        }
+        .flash-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -79,16 +91,34 @@
             <p>Launching in September 2024</p>
         </div>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li class="flash-message">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
         <div class="signup-options">
             <div class="signup-box">
                 <h2>Become a Mentor</h2>
                 <p class="key-phrase">Get paid to share your expertise</p>
-                <a href="#" class="signup-button">Join Waitlist as Mentor</a>
+                <form action="{{ url_for('join_waitlist') }}" method="post">
+                    <input type="hidden" name="role" value="mentor">
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <button type="submit" class="signup-button">Join Waitlist as Mentor</button>
+                </form>
             </div>
             <div class="signup-box">
                 <h2>Find a Mentor</h2>
                 <p class="key-phrase">Break into the industry of your dreams</p>
-                <a href="#" class="signup-button">Join Waitlist as Mentee</a>
+                <form action="{{ url_for('join_waitlist') }}" method="post">
+                    <input type="hidden" name="role" value="mentee">
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <button type="submit" class="signup-button">Join Waitlist as Mentee</button>
+                </form>
             </div>
         </div>
     </div>
